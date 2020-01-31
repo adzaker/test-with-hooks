@@ -1,41 +1,55 @@
 import React from 'react'
 import Link from 'next/link'
+import PropTypes from 'prop-types';
 
 const links = [
-  { href: 'https://zeit.co/now', label: 'ZEIT' },
-  { href: 'https://github.com/zeit/next.js', label: 'GitHub' },
-].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`
-  return link
-})
+  {
+    key: 1,
+    href: '/',
+    label: 'Index',
+  },
+  {
+    key: 2,
+    href: '/second',
+    label: 'Second',
+  },
+  {
+    key: 3,
+    href: '/tictactoe',
+    label: 'tictactoe',
+  },
+  {
+    key: 4,
+    href: '/piano',
+    label: 'piano',
+  },
+  {
+    key: 5,
+    href: '/memoriz',
+    label: 'memoriz',
+  },
+];
+export default function Nav(props) {
+  return (
+    <nav>
+      <ul>
+        {links.map(({key, href, label}) => (
+          <li key={key}>
+            <Link href={href}>
+              <a className={props.active === key - 1 && 'active'}>{label}</a>
+            </Link>
+          </li>
+        ))}
+      </ul>
 
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-      </li>
-      {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <a href={href}>{label}</a>
-        </li>
-      ))}
-    </ul>
-
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
+      <style jsx>{`
       nav {
         text-align: center;
+        z-index: 1000;
+        position: relative;
       }
       ul {
         display: flex;
-        justify-content: space-between;
       }
       nav > ul {
         padding: 4px 16px;
@@ -47,10 +61,18 @@ const Nav = () => (
       a {
         color: #067df7;
         text-decoration: none;
-        font-size: 13px;
+        font-size: 16px;
+        font-family: 'Arial Narrow';
+      }
+      
+      a.active {
+        font-weight: bold;
       }
     `}</style>
-  </nav>
-)
+    </nav>
+  );
+}
 
-export default Nav
+Nav.propTypes = {
+  active: PropTypes.number,
+};
